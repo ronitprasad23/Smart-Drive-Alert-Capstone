@@ -1,0 +1,31 @@
+# General Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Environment Variables (CRITICAL: Do not remove)
+.env
+
+# Virtual Environments
+.venv
+env/
+venv/
+ENV/
+
+# IDE Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MacOS / Windows System Files
+.DS_Store
+Thumbs.db
