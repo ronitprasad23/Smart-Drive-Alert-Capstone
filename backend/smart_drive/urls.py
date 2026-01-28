@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/auth/login/', TokenObtainPairView.as_view(), name='login'),
     # path('api/auth/admin/login/', AdminLoginView.as_view(), name='admin-login'), # Placeholder
     path('api/auth/admin/login/', AdminLoginView.as_view(), name='admin-login'),
+    path('api/auth/change-password/', ChangePasswordView.as_view(), name='change-password'),
 
     # User APIs - Explicit paths or ViewSets
     path('api/user/profile/', UserProfileView.as_view(), name='user-profile'),

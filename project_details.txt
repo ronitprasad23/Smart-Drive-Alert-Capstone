@@ -8,62 +8,72 @@ Smart Drive Alert is a backend system built with Django designed to monitor driv
 2. FOLDER STRUCTURE & COMPONENTS
 --------------------------------
 
-A. CORE APPLICATIONS (APPS)
-   These are modular components of the Django project:
+The project is split into two main directories: `backend/` and `frontend/`.
 
-   1. accounts/
-      - Purpose: Handles user authentication and profile management.
-      - Key Features: Custom user model (if implemented), login/register API endpoints.
+A. BACKEND (backend/)
+   Contains the Django project and applications.
 
-   2. vehicles/
-      - Purpose: Manages vehicle information.
-      - Key Features: Database models to store car details (Make, Model, Year, License Plate).
+   1. CORE APPLICATIONS (APPS)
+      These are modular components of the Django project:
 
-   3. trips/
-      - Purpose: Logs individual driving sessions.
-      - Key Features: Records Start Time, End Time, Distance, and Status (Ongoing/Completed).
+      1. accounts/
+         - Purpose: Handles user authentication and profile management.
+         - Key Features: Custom user model (if implemented), login/register API endpoints.
 
-   4. alerts/
-      - Purpose: Generates and stores safety warnings.
-      - Key Features:
-        - Stores alert types (e.g., Drowsiness, Speeding, Lane Departure).
-        - Links alerts to specific Users and Trips.
-        - Classifies severity (Low, Medium, High).
+      2. vehicles/
+         - Purpose: Manages vehicle information.
+         - Key Features: Database models to store car details (Make, Model, Year, License Plate).
 
-   5. analytics/
-      - Purpose: Advanced data analysis and AI integration.
-      - Key Features:
-        - Google Gemini AI Integration (`ai_service.py`).
-        - Generates "Safety Scores" and text-based feedback based on trip data.
+      3. trips/
+         - Purpose: Logs individual driving sessions.
+         - Key Features: Records Start Time, End Time, Distance, and Status (Ongoing/Completed).
 
-   6. system_settings/
-      - Purpose: Manages global system configurations.
-      - Key Features: API endpoints for retrieving or updating system-wide settings.
+      4. alerts/
+         - Purpose: Generates and stores safety warnings.
+         - Key Features:
+           - Stores alert types (e.g., Drowsiness, Speeding, Lane Departure).
+           - Links alerts to specific Users and Trips.
+           - Classifies severity (Low, Medium, High).
 
-   7. smart_drive/
-      - Purpose: The main configuration folder for the Django project.
-      - Key Contents:
-        - `settings.py`: Global settings (Database, Apps, Middleware).
-        - `urls.py`: Main URL routing.
+      5. analytics/
+         - Purpose: Advanced data analysis and AI integration.
+         - Key Features:
+           - Google Gemini AI Integration (`ai_service.py`).
+           - Generates "Safety Scores" and text-based feedback based on trip data.
 
-B. KEY FILES IN ROOT DIRECTORY
+      6. system_settings/
+         - Purpose: Manages global system configurations.
+         - Key Features: API endpoints for retrieving or updating system-wide settings.
 
-   1. manage.py
-      - The command-line utility for interacting with this Django project (running server, migrations, etc.).
+      7. smart_drive/
+         - Purpose: The main configuration folder for the Django project.
+         - Key Contents:
+           - `settings.py`: Global settings (Database, Apps, Middleware).
+           - `urls.py`: Main URL routing.
 
-   2. verify_ai.py
-      - A standalone script developed to test the AI integration.
-      - functionality:
-        - Creates a dummy User, Vehicle, and Trip.
-        - Generates fake Alerts (Drowsiness, Speeding).
-        - Sends this data to Google Gemini API.
-        - Prints the AI's safety feedback to the console.
+   2. KEY FILES IN BACKEND ROOT
 
-   3. requirements.txt
-      - Lists all Python dependencies required to run the project (Django, Google Generative AI, etc.).
+      1. manage.py
+         - The command-line utility for interacting with this Django project (running server, migrations, etc.).
 
-   4. .env
-      - Stores sensitive information like API Keys (GEMINI_API_KEY) and Debug settings. *Note: This file is not shared in version control.*
+      2. verify_ai.py
+         - A standalone script developed to test the AI integration.
+         - functionality:
+           - Creates a dummy User, Vehicle, and Trip.
+           - Generates fake Alerts (Drowsiness, Speeding).
+           - Sends this data to Google Gemini API.
+           - Prints the AI's safety feedback to the console.
+
+      3. requirements.txt
+         - Lists all Python dependencies required to run the project.
+
+      4. .env
+         - Stores sensitive information like API Keys (GEMINI_API_KEY) and Debug settings.
+
+B. FRONTEND (frontend/)
+   The React frontend application.
+   - Purpose: Interfaces for User Dashboard, Trip Logs, and Alerts.
+   - Key Features: Vite-based React setup.
 
 3. TECHNICAL STACK
 ------------------

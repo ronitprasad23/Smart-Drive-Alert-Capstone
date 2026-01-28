@@ -24,11 +24,26 @@ class OverviewView(APIView):
     def get(self, request):
         # If admin, return total counts. If user, return own counts.
         if request.user.is_staff:
-             data = {
-                 'total_users': User.objects.count(),
-                 'total_trips': Trip.objects.count(),
-                 'total_alerts': Alert.objects.count(),
-             }
+            # Recent alerts for admin dashboard
+            recent_alerts_qs = Alert.objects.all().order_by('-timestamp')[:5]
+            recent_alerts = []
+            for alert in recent_alerts_qs:
+                recent_alerts.append({
+                    'id': alert.id,
+                    'user': alert.user.username,
+                    'type': alert.alert_type,
+                    'location': alert.location or "Unknown",
+                    'severity': alert.severity, # 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'
+                    'status': 'Critical' if alert.severity in ['CRITICAL', 'HIGH'] else ('Warning' if alert.severity == 'MEDIUM' else 'Safe')
+                })
+
+            data = {
+                'total_users': User.objects.count(),
+                'total_trips': Trip.objects.count(),
+                'total_alerts': Alert.objects.count(),
+                'total_accident_zones': 0, # Placeholder
+                'recent_alerts': recent_alerts
+            }
         else:
             data = {
                 'total_trips': Trip.objects.filter(user=request.user).count(),
