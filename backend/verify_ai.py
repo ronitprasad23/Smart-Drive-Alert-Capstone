@@ -15,30 +15,26 @@ from django.utils import timezone
 from datetime import timedelta
 
 def verify_ai():
-    print("--- 1. Setting up Test Data ---")
-    # Create or get a test user
-    user, created = User.objects.get_or_create(username='ai_tester', defaults={'email': 'test@example.com'})
-    print(f"User: {user.username}")
+    print("--- 1. Fetching Latest Trip Data ---")
+    
+    # Fetch the most recent trip
+    trip = Trip.objects.last()
+    
+    if not trip:
+        print("No trips found in the database! Please create some data via the frontend first.")
+        return
 
-    # Create dummy vehicle
-    vehicle, _ = Vehicle.objects.get_or_create(user=user, license_plate='AI-TEST-99', defaults={'make': 'Tesla', 'model': 'Model S', 'year': 2024})
+    print(f"Found Trip ID: {trip.id}")
+    print(f"User: {trip.user.username}")
+    print(f"Distance: {trip.distance_km} km")
+    print(f"Date: {trip.start_time.strftime('%Y-%m-%d %H:%M') if trip.start_time else 'N/A'}")
 
-    # Create dummy trip
-    trip = Trip.objects.create(
-        user=user,
-        vehicle=vehicle,
-        start_time=timezone.now() - timedelta(hours=2),
-        end_time=timezone.now(),
-        distance_km=150.5,
-        status='COMPLETED'
-    )
-    print(f"Created Trip ID: {trip.id} (Distance: {trip.distance_km}km)")
-
-    # Create dummy alerts (Mixed severity to test AI logic)
-    Alert.objects.create(user=user, trip=trip, alert_type='Drowsiness Detected', severity='HIGH')
-    Alert.objects.create(user=user, trip=trip, alert_type='Speeding', severity='LOW')
-    Alert.objects.create(user=user, trip=trip, alert_type='Lane Departure', severity='MEDIUM')
-    print(f"Created {trip.alerts.count()} alerts for this trip.")
+    # Fetch associated alerts
+    alerts = trip.alerts.all()
+    print(f"Found {alerts.count()} alerts for this trip.")
+    
+    for alert in alerts:
+        print(f" - {alert.alert_type} ({alert.severity})")
 
     print("\n--- 2. Calling AI Service (Google Gemini) ---")
     try:
