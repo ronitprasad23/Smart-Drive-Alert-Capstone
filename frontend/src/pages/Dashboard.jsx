@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 import Alerts from "./Alerts";
+import Trips from "./Trips";
 import Users from "./Users";
 import AccidentZones from "./AccidentZones";
 import Features from "./Features";
@@ -113,6 +114,7 @@ export default function Dashboard() {
 
         {/* SIDEBAR PAGES */}
         <Route path="alerts" element={<Alerts />} />
+        <Route path="trips" element={<Trips />} />
         <Route path="users" element={<Users />} />
         <Route path="AccidentZones" element={<AccidentZones />} />
         <Route path="features" element={<Features />} />

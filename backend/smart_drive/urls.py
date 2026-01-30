@@ -6,8 +6,8 @@ from accounts.views import RegisterView, AdminLoginView, UserProfileView, Emerge
 # AdminLoginView name conflict in my previous thought, I defined it once.
 from accounts.views import * 
 from vehicles.views import VehicleViewSet
-from trips.views import TripViewSet
-from alerts.views import UserAlertViewSet, AdminAlertViewSet
+from trips.views import TripViewSet, AdminTripViewSet
+from alerts.views import UserAlertViewSet, AdminAlertViewSet, AdminAlertDefinitionViewSet
 from system_settings.views import SystemSettingViewSet
 from analytics.views import OverviewView, AlertsSummaryView, RiskTrendsView, TripFeedbackView
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
@@ -58,6 +58,9 @@ urlpatterns = [
     # "GET /api/admin/dashboard/" and "GET /api/analytics/overview/".
     # I'll point both to OverviewView or similar.
     
+    path('api/admin/trips/', AdminTripViewSet.as_view({'get': 'list'}), name='admin-trips-list'),
+    path('api/admin/trips/<int:pk>/', AdminTripViewSet.as_view({'get': 'retrieve'}), name='admin-trips-detail'),
+    
     # "GET /api/admin/users/"
     # Need a UserViewSet for admin.
     path('api/admin/users/', AdminUserViewSet.as_view({'get': 'list'}), name='admin-users-list'),
@@ -66,6 +69,8 @@ urlpatterns = [
 
     
     path('api/admin/alerts/', AdminAlertViewSet.as_view({'get': 'list'}), name='admin-alerts-list'),
+    path('api/admin/alert-types/', AdminAlertDefinitionViewSet.as_view({'get': 'list', 'post': 'create'}), name='admin-alert-types-list'),
+    path('api/admin/alert-types/<int:pk>/', AdminAlertDefinitionViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='admin-alert-types-detail'),
     
     path('api/admin/system-settings/', SystemSettingViewSet.as_view({'get': 'list', 'post': 'create'}), name='admin-settings-list'),
     path('api/admin/system-settings/<int:pk>/', SystemSettingViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='admin-settings-detail'),

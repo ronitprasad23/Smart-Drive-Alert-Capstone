@@ -5,6 +5,10 @@ export default function Alerts() {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Toggle State
+  const [activeTab, setActiveTab] = useState('generated');
+  const [alertTypes, setAlertTypes] = useState([]);
+
   // Stats State
   const [stats, setStats] = useState({
     total: 0,
@@ -15,6 +19,7 @@ export default function Alerts() {
 
   useEffect(() => {
     fetchAlerts();
+    fetchAlertTypes();
   }, []);
 
   const fetchAlerts = async () => {
@@ -27,6 +32,15 @@ export default function Alerts() {
       console.error("Failed to fetch alerts", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchAlertTypes = async () => {
+    try {
+      const response = await api.get('/admin/alert-types/');
+      setAlertTypes(response.data);
+    } catch (error) {
+      console.error("Failed to fetch alert types", error);
     }
   };
 
@@ -66,55 +80,89 @@ export default function Alerts() {
         </div>
       </div>
 
-      {/* Alerts Table */}
+      {/* Tabs */}
+      <div className="tabs">
+        <button
+          className={`tab-btn ${activeTab === 'generated' ? 'active' : ''}`}
+          onClick={() => setActiveTab('generated')}
+        >
+          Trip Alerts
+        </button>
+        <button
+          className={`tab-btn ${activeTab === 'types' ? 'active' : ''}`}
+          onClick={() => setActiveTab('types')}
+        >
+          Alert Types
+        </button>
+      </div>
+
       <div className="card-section">
-        <h3>Recent Alerts</h3>
-
-        <table className="alert-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>User</th>
-              <th>Alert Type</th>
-              <th>Location</th>
-              <th>Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {loading ? (
-              <tr><td colSpan="6" className="text-center">Loading...</td></tr>
-            ) : alerts.length > 0 ? (
-              alerts.map((alert, index) => (
-                <tr key={alert.id}>
-                  <td>{index + 1}</td>
-                  <td>{alert.user_username || alert.user || 'Unknown'}</td>
-                  {/* Note: Serializer might return user ID or object. Assuming simple setup might return ID. 
-                            If Serializer returns ID, we might not show name. 
-                            Let's rely on what we saw in the OverviewView customization: 'user.username'.
-                            But AdminAlertViewSet uses standard AlertSerializer. 
-                            I'll assume standard serializer returns user ID by default unless customized.
-                            Wait, in previous turn AlertSerializer wasn't inspected fully but usually it's __all__.
-                            If it returns ID, the display will be just ID. 
-                            For now, let's display what we get, ideally we'd want username.
-                        */}
-                  <td>{alert.alert_type}</td>
-                  <td>{alert.location || 'N/A'}</td>
-                  <td>{new Date(alert.timestamp).toLocaleDateString()}</td>
-                  <td className={
-                    alert.severity === 'CRITICAL' || alert.severity === 'HIGH' ? "danger" :
-                      alert.severity === 'MEDIUM' ? "warning" : "safe"
-                  }>
-                    {alert.severity}
-                  </td>
+        {activeTab === 'generated' ? (
+          <>
+            <h3>Recent Trip Alerts</h3>
+            <table className="alert-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>User</th>
+                  <th>Alert Type</th>
+                  <th>Location</th>
+                  <th>Date</th>
+                  <th>Status</th>
                 </tr>
-              ))
-            ) : (
-              <tr><td colSpan="6" style={{ textAlign: "center" }}>No alerts found</td></tr>
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr><td colSpan="6" className="text-center">Loading...</td></tr>
+                ) : alerts.length > 0 ? (
+                  alerts.map((alert, index) => (
+                    <tr key={alert.id}>
+                      <td>{index + 1}</td>
+                      <td>{alert.user_username || alert.user || 'Unknown'}</td>
+                      <td>{alert.alert_type}</td>
+                      <td>{alert.location || 'N/A'}</td>
+                      <td>{new Date(alert.timestamp).toLocaleDateString()}</td>
+                      <td className={
+                        alert.severity === 'CRITICAL' || alert.severity === 'HIGH' ? "danger" :
+                          alert.severity === 'MEDIUM' ? "warning" : "safe"
+                      }>
+                        {alert.severity}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr><td colSpan="6" style={{ textAlign: "center" }}>No alerts found</td></tr>
+                )}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          <>
+            <h3>Alert Types Configuration</h3>
+            <table className="alert-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {alertTypes.length > 0 ? (
+                  alertTypes.map((type, index) => (
+                    <tr key={type.id}>
+                      <td>{index + 1}</td>
+                      <td>{type.name}</td>
+                      <td>{type.description || '-'}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr><td colSpan="3" style={{ textAlign: "center" }}>No alert types defined</td></tr>
+                )}
+              </tbody>
+            </table>
+          </>
+        )}
       </div>
     </>
   );

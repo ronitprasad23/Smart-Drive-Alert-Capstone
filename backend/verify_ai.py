@@ -9,7 +9,7 @@ django.setup()
 from accounts.models import User
 from trips.models import Trip
 from vehicles.models import Vehicle
-from alerts.models import Alert
+from alerts.models import TripAlert
 from analytics.ai_service import generate_safety_feedback
 from django.utils import timezone
 from datetime import timedelta
@@ -30,7 +30,7 @@ def verify_ai():
     print(f"Date: {trip.start_time.strftime('%Y-%m-%d %H:%M') if trip.start_time else 'N/A'}")
 
     # Fetch associated alerts
-    alerts = trip.alerts.all()
+    alerts = trip.trip_alerts.all()
     print(f"Found {alerts.count()} alerts for this trip.")
     
     for alert in alerts:
@@ -38,7 +38,7 @@ def verify_ai():
 
     print("\n--- 2. Calling AI Service (Google Gemini) ---")
     try:
-        feedback = generate_safety_feedback(trip, trip.alerts.all())
+        feedback = generate_safety_feedback(trip, trip.trip_alerts.all())
         print("\n=== AI FEEDBACK RESULT ===")
         print(feedback)
         print("==========================")

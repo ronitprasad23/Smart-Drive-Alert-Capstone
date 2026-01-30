@@ -14,6 +14,10 @@ export default function Sidebar() {
           Alerts
         </NavLink>
 
+        <NavLink to="/dashboard/trips" className="menu-item">
+          Trips
+        </NavLink>
+
         <NavLink to="/dashboard/users" className="menu-item">
           Users
         </NavLink>

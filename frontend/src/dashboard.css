@@ -467,3 +467,38 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  margin-top: 20px;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #6b7280;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s ease;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.tab-btn:hover {
+  color: #2563eb;
+  background: #f9fafb;
+}
+
+.tab-btn.active {
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+  font-weight: bold;
+  background: white;
+}

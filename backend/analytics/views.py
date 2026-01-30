@@ -4,19 +4,8 @@ from rest_framework import permissions, status
 from django.db.models import Count
 from accounts.models import User
 from trips.models import Trip
-from alerts.models import Alert
+from alerts.models import TripAlert
 from .ai_service import generate_safety_feedback
-
-
-# Assuming these imports might fail if I don't use the app config name or correct path.
-# Apps are 'accounts', 'trips', etc. configured in INSTALLED_APPS.
-# But I am in analytics app.
-# I need to import models from other apps.
-# 'accounts.models' should work if 'accounts' is in INSTALLED_APPS.
-
-from accounts.models import User
-from trips.models import Trip
-from alerts.models import Alert
 
 class OverviewView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -25,13 +14,13 @@ class OverviewView(APIView):
         # If admin, return total counts. If user, return own counts.
         if request.user.is_staff:
             # Recent alerts for admin dashboard
-            recent_alerts_qs = Alert.objects.all().order_by('-timestamp')[:5]
+            recent_alerts_qs = TripAlert.objects.all().order_by('-timestamp')[:5]
             recent_alerts = []
             for alert in recent_alerts_qs:
                 recent_alerts.append({
                     'id': alert.id,
                     'user': alert.user.username,
-                    'type': alert.alert_type,
+                    'type': alert.alert_type.name,
                     'location': alert.location or "Unknown",
                     'severity': alert.severity, # 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'
                     'status': 'Critical' if alert.severity in ['CRITICAL', 'HIGH'] else ('Warning' if alert.severity == 'MEDIUM' else 'Safe')
@@ -40,14 +29,14 @@ class OverviewView(APIView):
             data = {
                 'total_users': User.objects.count(),
                 'total_trips': Trip.objects.count(),
-                'total_alerts': Alert.objects.count(),
+                'total_alerts': TripAlert.objects.count(),
                 'total_accident_zones': 0, # Placeholder
                 'recent_alerts': recent_alerts
             }
         else:
             data = {
                 'total_trips': Trip.objects.filter(user=request.user).count(),
-                'total_alerts': Alert.objects.filter(user=request.user).count(),
+                'total_alerts': TripAlert.objects.filter(user=request.user).count(),
             }
         return Response(data)
 
@@ -55,7 +44,7 @@ class AlertsSummaryView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        qs = Alert.objects.all()
+        qs = TripAlert.objects.all()
         if not request.user.is_staff:
             qs = qs.filter(user=request.user)
         
@@ -87,7 +76,7 @@ class TripFeedbackView(APIView):
         if not request.user.is_staff and trip.user != request.user:
              return Response({"error": "Not authorized"}, status=status.HTTP_403_FORBIDDEN)
 
-        alerts = Alert.objects.filter(trip=trip)
+        alerts = TripAlert.objects.filter(trip=trip)
         feedback = generate_safety_feedback(trip, alerts)
         
         return Response({

@@ -34,9 +34,6 @@ export default function PublicNavbar() {
         <Link to="/" className="hover:text-green-500">Home</Link>
         <Link to="/about" className="hover:text-green-500">About</Link>
         <Link to="/login" className="text-green-600 font-semibold">Login</Link>
-        <Link to="/signup" className="border px-4 py-1 rounded border-green-600 text-green-600">
-          Sign Up
-        </Link>
       </div>
     </nav>
   );

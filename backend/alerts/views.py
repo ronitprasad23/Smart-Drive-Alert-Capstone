@@ -1,15 +1,20 @@
 from rest_framework import viewsets, permissions, mixins
-from .models import Alert
-from .serializers import AlertSerializer
+from .models import TripAlert, Alert
+from .serializers import AlertSerializer, AlertDefinitionSerializer
 
 class UserAlertViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = AlertSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return Alert.objects.filter(user=self.request.user)
+        return TripAlert.objects.filter(user=self.request.user)
 
 class AdminAlertViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Alert.objects.all()
+    queryset = TripAlert.objects.all()
     serializer_class = AlertSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+class AdminAlertDefinitionViewSet(viewsets.ModelViewSet):
+    queryset = Alert.objects.all()
+    serializer_class = AlertDefinitionSerializer
     permission_classes = (permissions.IsAdminUser,)
