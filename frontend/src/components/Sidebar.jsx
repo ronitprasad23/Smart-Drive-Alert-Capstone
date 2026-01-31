@@ -22,6 +22,10 @@ export default function Sidebar() {
           Users
         </NavLink>
 
+        <NavLink to="/dashboard/vehicles" className="menu-item">
+          Vehicles
+        </NavLink>
+
         <NavLink to="/dashboard/AccidentZones" className="menu-item">
           Accident Zones
         </NavLink>

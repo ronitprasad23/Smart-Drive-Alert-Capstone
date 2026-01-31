@@ -4,6 +4,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Alerts from "./Alerts";
 import Trips from "./Trips";
 import Users from "./Users";
+import Vehicles from "./Vehicles";
 import AccidentZones from "./AccidentZones";
 import Features from "./Features";
 import AboutApp from "./AboutApp";
@@ -116,6 +117,7 @@ export default function Dashboard() {
         <Route path="alerts" element={<Alerts />} />
         <Route path="trips" element={<Trips />} />
         <Route path="users" element={<Users />} />
+        <Route path="vehicles" element={<Vehicles />} />
         <Route path="AccidentZones" element={<AccidentZones />} />
         <Route path="features" element={<Features />} />
         <Route path="about-app" element={<AboutApp />} />

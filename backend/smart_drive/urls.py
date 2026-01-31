@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from accounts.views import RegisterView, AdminLoginView, UserProfileView, EmergencyContactViewSet, AdminLoginView
 # AdminLoginView name conflict in my previous thought, I defined it once.
 from accounts.views import * 
-from vehicles.views import VehicleViewSet
+from vehicles.views import VehicleViewSet, AdminVehicleViewSet
 from trips.views import TripViewSet, AdminTripViewSet
 from alerts.views import UserAlertViewSet, AdminAlertViewSet, AdminAlertDefinitionViewSet
 from system_settings.views import SystemSettingViewSet
@@ -43,6 +43,9 @@ urlpatterns = [
     # Manual bindings for clarity:
     path('api/user/vehicles/', VehicleViewSet.as_view({'get': 'list', 'post': 'create'}), name='user-vehicles-list'),
     path('api/user/vehicles/<int:pk>/', VehicleViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='user-vehicles-detail'),
+
+    # Admin Vehicle Routes
+    path('api/admin/vehicles/', AdminVehicleViewSet.as_view({'get': 'list'}), name='admin-vehicles-list'),
 
     path('api/user/emergency-contacts/', EmergencyContactViewSet.as_view({'get': 'list', 'post': 'create'}), name='user-contacts-list'),
     path('api/user/emergency-contacts/<int:pk>/', EmergencyContactViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='user-contacts-detail'),
