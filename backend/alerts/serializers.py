@@ -12,7 +12,7 @@ class AlertSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        # If location is empty but trip exists, use trip's start_location
+
         if not data.get('location') and instance.trip:
             data['location'] = instance.trip.start_location or "Trip Location"
         return data

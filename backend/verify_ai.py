@@ -2,7 +2,6 @@ import os
 import django
 from django.conf import settings
 
-# Setup Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'smart_drive.settings')
 django.setup()
 
@@ -16,10 +15,9 @@ from datetime import timedelta
 
 def verify_ai():
     print("--- 1. Fetching Latest Trip Data ---")
-    
-    # Fetch the most recent trip
+
     trip = Trip.objects.last()
-    
+
     if not trip:
         print("No trips found in the database! Please create some data via the frontend first.")
         return
@@ -29,10 +27,9 @@ def verify_ai():
     print(f"Distance: {trip.distance_km} km")
     print(f"Date: {trip.start_time.strftime('%Y-%m-%d %H:%M') if trip.start_time else 'N/A'}")
 
-    # Fetch associated alerts
     alerts = trip.trip_alerts.all()
     print(f"Found {alerts.count()} alerts for this trip.")
-    
+
     for alert in alerts:
         print(f" - {alert.alert_type} ({alert.severity})")
 

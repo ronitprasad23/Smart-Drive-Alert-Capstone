@@ -1,9 +1,9 @@
 export default function AccidentZones() {
   return (
     <>
-      <h2>Accident Zones 🚧</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Accident Zones 🚧</h2>
 
-      {/* Summary Cards */}
+      {}
       <div className="stats-grid">
         <div className="stat-card">
           <h4>Total Zones</h4>
@@ -26,7 +26,7 @@ export default function AccidentZones() {
         </div>
       </div>
 
-      {/* Zones Table */}
+      {}
       <div className="card-section">
         <h3>Identified Accident Zones</h3>
 
@@ -79,7 +79,7 @@ export default function AccidentZones() {
         </table>
       </div>
 
-      {/* Note */}
+      {}
       <div className="info-box">
         ⚠ These zones are identified based on historical accident data
         and AI risk analysis.

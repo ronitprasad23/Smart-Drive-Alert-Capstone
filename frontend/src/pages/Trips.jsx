@@ -22,7 +22,7 @@ export default function Trips() {
 
     return (
         <>
-            <h2>Trip Management 🚗</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Trip Management 🚗</h2>
             <div className="card-section">
                 <h3>All Trips</h3>
                 <table className="alert-table">
@@ -42,7 +42,7 @@ export default function Trips() {
                             trips.map((trip) => (
                                 <tr key={trip.id}>
                                     <td>{trip.id}</td>
-                                    <td>{trip.user || 'Unknown'}</td> {/* Serializer usually handles nested user representation */}
+                                    <td>{trip.username || 'Unknown'}</td>
                                     <td>
                                         <span style={{
                                             color: trip.status === 'COMPLETED' ? '#16a34a' :

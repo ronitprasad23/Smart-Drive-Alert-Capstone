@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    pass  # We can add extra fields here if needed later (e.g. phone number)
+    admin_id = models.AutoField(primary_key=True)
+    class Meta:
+        db_table = 'admins'
+    pass
 
 class EmergencyContact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='emergency_contacts')

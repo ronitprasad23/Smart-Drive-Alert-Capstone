@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 class Trip(models.Model):
+    trip_id = models.AutoField(primary_key=True)
     STATUS_CHOICES = (
         ('ONGOING', 'Ongoing'),
         ('COMPLETED', 'Completed'),
@@ -18,5 +19,8 @@ class Trip(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ONGOING')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'trips'
+
     def __str__(self):
-        return f"Trip {self.id} - {self.user.username} ({self.status})"
+        return f"Trip {self.trip_id} - {self.user.username} ({self.status})"

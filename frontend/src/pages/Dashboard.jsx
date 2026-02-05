@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 import Alerts from "./Alerts";
+import AlertMap from "./AlertMap";
 import Trips from "./Trips";
 import Users from "./Users";
 import Vehicles from "./Vehicles";
@@ -15,7 +16,6 @@ import Profile from "./Profile";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 
-/* Dashboard Home Content */
 function DashboardHome() {
   const [stats, setStats] = useState({
     total_users: 0,
@@ -28,7 +28,7 @@ function DashboardHome() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // According to urls.py: path('api/admin/dashboard/', OverviewView.as_view(), name='admin-dashboard')
+
         const response = await api.get('/admin/dashboard/');
         setStats(response.data);
       } catch (error) {
@@ -41,9 +41,9 @@ function DashboardHome() {
 
   return (
     <>
-      <h2>Admin Dashboard 👋</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Admin Dashboard 👋</h2>
 
-      {/* Stats Cards */}
+      {}
       <div className="stats-grid">
         <div className="stat-card">
           <h4>Total Alerts</h4>
@@ -66,7 +66,7 @@ function DashboardHome() {
         </div>
       </div>
 
-      {/* Recent Alerts */}
+      {}
       <div className="card-section">
         <h3>Recent Alerts</h3>
 
@@ -110,11 +110,12 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <Routes>
-        {/* DEFAULT DASHBOARD PAGE */}
+        {}
         <Route path="/" element={<DashboardHome />} />
 
-        {/* SIDEBAR PAGES */}
+        {}
         <Route path="alerts" element={<Alerts />} />
+        <Route path="alerts/map" element={<AlertMap />} />
         <Route path="trips" element={<Trips />} />
         <Route path="users" element={<Users />} />
         <Route path="vehicles" element={<Vehicles />} />

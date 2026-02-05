@@ -6,10 +6,10 @@ function Home() {
     <>
       <PublicNavbar />
 
-      {/* Hero Section */}
+      {}
       <section className="bg-gray-100 min-h-[80vh] flex flex-col justify-center items-center text-center px-6">
         <h2 className="text-4xl font-bold mb-4">
-          AI Powered Smart Drive Alert 
+          AI Powered Smart Drive Alert
         </h2>
         <p className="text-gray-600 max-w-xl mb-6">
           Detects unsafe driving behavior using Machine Learning and alerts drivers
@@ -24,7 +24,7 @@ function Home() {
         </a>
       </section>
 
-      {/* Features */}
+      {}
       <section id="features" className="py-16 px-8 bg-white">
         <h3 className="text-3xl font-bold text-center mb-10">Features</h3>
 
@@ -52,7 +52,7 @@ function Home() {
         </div>
       </section>
 
-      {/* About */}
+      {}
       <section id="about" className="py-16 px-8 bg-gray-100">
         <h3 className="text-3xl font-bold text-center mb-6">About Project</h3>
         <p className="max-w-3xl mx-auto text-center text-gray-700">

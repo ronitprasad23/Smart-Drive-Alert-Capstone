@@ -21,7 +21,7 @@ class TripAlert(models.Model):
     alert_type = models.ForeignKey(Alert, on_delete=models.CASCADE, related_name='trip_alerts')
     severity = models.CharField(max_length=20, choices=SEVERITY_CHOICES, default='MEDIUM')
     timestamp = models.DateTimeField(auto_now_add=True)
-    location = models.CharField(max_length=255, blank=True) # Could be lat/long or address
+    location = models.CharField(max_length=255, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     is_resolved = models.BooleanField(default=False)

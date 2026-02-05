@@ -29,3 +29,8 @@ ENV/
 # MacOS / Windows System Files
 .DS_Store
 Thumbs.db
+
+package-lock.json
+package.json
+
+postcss.config.js

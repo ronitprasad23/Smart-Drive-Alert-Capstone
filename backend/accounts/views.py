@@ -27,24 +27,21 @@ class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
              raise serializers.ValidationError("User is not an admin.")
         return data
 
-
-
 class AdminLoginView(APIView):
     permission_classes = (permissions.AllowAny,)
-    
+
     def post(self, request):
         serializer = TokenObtainPairSerializer(data=request.data)
         try:
             serializer.is_valid(raise_exception=True)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
-        
+
         user = serializer.user
         if not user.is_staff:
             return Response({"detail": "Not authorized."}, status=status.HTTP_403_FORBIDDEN)
-            
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 class UserProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
@@ -68,11 +65,21 @@ class AdminUserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAdminUser,)
 
-    def update(self, request, *args, **kwargs):
-        # We can handle status updates here or in a custom action
-        # Requires 'status' field? Or is_active?
-        # User said PATCH /api/admin/users/{id}/status/
-        return super().update(request, *args, **kwargs)
+    def perform_destroy(self, instance):
+        try:
+
+            from django.contrib.admin.models import LogEntry
+            from django.contrib.contenttypes.models import ContentType
+
+            ct = ContentType.objects.get_for_model(instance)
+            LogEntry.objects.filter(object_id=instance.pk, content_type=ct).delete()
+            LogEntry.objects.filter(user_id=instance.pk).delete()
+
+            instance.delete()
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            raise e
 
 class ChangePasswordView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -91,4 +98,3 @@ class ChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
         return Response({"message": "Password updated successfully"}, status=status.HTTP_200_OK)
-

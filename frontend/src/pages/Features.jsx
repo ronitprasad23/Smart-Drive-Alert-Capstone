@@ -1,9 +1,9 @@
 export default function Features() {
   return (
     <>
-      <h2>Application Features ⚙️</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Application Features ⚙️</h2>
 
-      {/* Current Features */}
+      {}
       <div className="feature-section">
         <h3>✅ Currently Available Features</h3>
 
@@ -54,10 +54,10 @@ export default function Features() {
         </div>
       </div>
 
-      {/* Divider */}
+      {}
       <hr className="divider" />
 
-      {/* Future Features */}
+      {}
       <div className="feature-section">
         <h3>🚀 Upcoming / Future Features</h3>
 

@@ -14,12 +14,15 @@ export default function DashboardNavbar() {
 
   return (
     <div className="dashboard-navbar">
-      {/* Left */}
-      <h3>Dashboard</h3>
+      {}
+      {}
+      <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
+        Welcome, <span className="text-gray-800">{user?.first_name || user?.username || 'Admin'}</span> 👋
+      </h3>
 
-      {/* Right */}
+      {}
       <div className="navbar-right">
-        {/* Admin Profile */}
+        {}
         <div
           className="admin-profile-wrapper"
           onClick={() => setOpen(!open)}
@@ -35,7 +38,7 @@ export default function DashboardNavbar() {
 
           <span className="dropdown-arrow">▼</span>
 
-          {/* Dropdown */}
+          {}
           {open && (
             <div className="admin-dropdown">
               <div className="dropdown-item">
@@ -57,13 +60,6 @@ export default function DashboardNavbar() {
                 onClick={() => navigate("/dashboard/change-password")}
               >
                 Change Password
-              </div>
-
-              <div
-                className="dropdown-item"
-                onClick={() => navigate("/dashboard/forgot-password")}
-              >
-                Forgot Password
               </div>
 
               <hr />

@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is logged in (has token) and fetch profile
+
         const checkUserLoggedIn = async () => {
             const token = localStorage.getItem('access_token');
             if (token) {
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
                     setUser(profile);
                 } catch (error) {
                     console.error("Failed to fetch profile", error);
-                    authService.logout(); // Clear invalid token
+                    authService.logout();
                     setUser(null);
                 }
             }

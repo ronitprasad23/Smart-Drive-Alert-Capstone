@@ -11,9 +11,9 @@ class OverviewView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        # If admin, return total counts. If user, return own counts.
+
         if request.user.is_staff:
-            # Recent alerts for admin dashboard
+
             recent_alerts_qs = TripAlert.objects.all().order_by('-timestamp')[:5]
             recent_alerts = []
             for alert in recent_alerts_qs:
@@ -22,7 +22,7 @@ class OverviewView(APIView):
                     'user': alert.user.username,
                     'type': alert.alert_type.name,
                     'location': alert.location or "Unknown",
-                    'severity': alert.severity, # 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'
+                    'severity': alert.severity,
                     'status': 'Critical' if alert.severity in ['CRITICAL', 'HIGH'] else ('Warning' if alert.severity == 'MEDIUM' else 'Safe')
                 })
 
@@ -30,7 +30,7 @@ class OverviewView(APIView):
                 'total_users': User.objects.count(),
                 'total_trips': Trip.objects.count(),
                 'total_alerts': TripAlert.objects.count(),
-                'total_accident_zones': 0, # Placeholder
+                'total_accident_zones': 0,
                 'recent_alerts': recent_alerts
             }
         else:
@@ -47,7 +47,7 @@ class AlertsSummaryView(APIView):
         qs = TripAlert.objects.all()
         if not request.user.is_staff:
             qs = qs.filter(user=request.user)
-        
+
         summary = qs.values('severity').annotate(count=Count('severity'))
         return Response(summary)
 
@@ -55,7 +55,7 @@ class RiskTrendsView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        # Mocking risk trends data for the dashboard graph
+
         data = {
             "dates": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "risk_scores": [12, 19, 3, 5, 2, 3, 15],
@@ -71,14 +71,13 @@ class TripFeedbackView(APIView):
             trip = Trip.objects.get(id=trip_id)
         except Trip.DoesNotExist:
             return Response({"error": "Trip not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-        # Ensure user can only see their own trips (or admin sees all)
+
         if not request.user.is_staff and trip.user != request.user:
              return Response({"error": "Not authorized"}, status=status.HTTP_403_FORBIDDEN)
 
         alerts = TripAlert.objects.filter(trip=trip)
         feedback = generate_safety_feedback(trip, alerts)
-        
+
         return Response({
             "trip_id": trip.id,
             "analysis": feedback

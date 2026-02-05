@@ -30,8 +30,6 @@ export default function ChangePassword() {
       setNewPwd("");
       setConfirmPwd("");
 
-      // Optional: logout or redirect
-      // navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Failed to change password");
     }

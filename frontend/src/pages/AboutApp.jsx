@@ -1,7 +1,7 @@
 export default function AboutApp() {
   return (
     <>
-      <h2>About Smart Drive Alert ℹ️</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">About Smart Drive Alert ℹ️</h2>
 
       <div className="card-section" style={{ maxWidth: '800px' }}>
         <h3>Project Overview</h3>
