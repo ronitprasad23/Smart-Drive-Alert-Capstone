@@ -2,10 +2,23 @@ from rest_framework import serializers
 from .models import Trip
 
 class TripSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username', read_only=True)
+    username = serializers.SerializerMethodField()
+    user_details = serializers.SerializerMethodField()
     id = serializers.IntegerField(source='trip_id', read_only=True)
 
     class Meta:
         model = Trip
         fields = '__all__'
-        read_only_fields = ('user',)
+        read_only_fields = ('created_at',)
+
+    def get_username(self, obj):
+        try:
+            return obj.user.username
+        except:
+            return "Unknown User"
+
+    def get_user_details(self, obj):
+        try:
+            return str(obj.user)
+        except:
+            return "Unknown User"

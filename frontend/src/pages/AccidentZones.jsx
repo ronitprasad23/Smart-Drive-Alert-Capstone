@@ -3,7 +3,7 @@ export default function AccidentZones() {
     <>
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Accident Zones 🚧</h2>
 
-      {}
+      { }
       <div className="stats-grid">
         <div className="stat-card">
           <h4>Total Zones</h4>
@@ -11,22 +11,22 @@ export default function AccidentZones() {
         </div>
 
         <div className="stat-card">
-          <h4>High Risk</h4>
+          <h4>CRITICAL Risk</h4>
           <p className="stat-number danger">7</p>
         </div>
 
         <div className="stat-card">
-          <h4>Medium Risk</h4>
+          <h4>Moderate Risk</h4>
           <p className="stat-number warning">6</p>
         </div>
 
         <div className="stat-card">
-          <h4>Low Risk</h4>
+          <h4>Minor Risk</h4>
           <p className="stat-number safe">5</p>
         </div>
       </div>
 
-      {}
+      { }
       <div className="card-section">
         <h3>Identified Accident Zones</h3>
 
@@ -48,7 +48,7 @@ export default function AccidentZones() {
               <td>SG Highway</td>
               <td>Ahmedabad</td>
               <td>42</td>
-              <td className="danger">High</td>
+              <td className="danger">Critical</td>
               <td>
                 <button className="btn-view">View</button>
               </td>
@@ -59,7 +59,7 @@ export default function AccidentZones() {
               <td>Ring Road</td>
               <td>Surat</td>
               <td>27</td>
-              <td className="warning">Medium</td>
+              <td className="warning">Moderate</td>
               <td>
                 <button className="btn-view">View</button>
               </td>
@@ -67,10 +67,10 @@ export default function AccidentZones() {
 
             <tr>
               <td>3</td>
-              <td>Railway Crossing</td>
+              <td>Raopura</td>
               <td>Vadodara</td>
               <td>12</td>
-              <td className="safe">Low</td>
+              <td className="safe">Minor</td>
               <td>
                 <button className="btn-view">View</button>
               </td>
@@ -79,7 +79,7 @@ export default function AccidentZones() {
         </table>
       </div>
 
-      {}
+      { }
       <div className="info-box">
         ⚠ These zones are identified based on historical accident data
         and AI risk analysis.

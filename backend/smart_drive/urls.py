@@ -44,8 +44,8 @@ urlpatterns = [
 
     path('api/admin/dashboard/', OverviewView.as_view(), name='admin-dashboard'),
 
-    path('api/admin/trips/', AdminTripViewSet.as_view({'get': 'list'}), name='admin-trips-list'),
-    path('api/admin/trips/<int:pk>/', AdminTripViewSet.as_view({'get': 'retrieve'}), name='admin-trips-detail'),
+    path('api/admin/trips/', AdminTripViewSet.as_view({'get': 'list', 'post': 'create'}), name='admin-trips-list'),
+    path('api/admin/trips/<int:pk>/', AdminTripViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='admin-trips-detail'),
 
     path('api/admin/users/', AdminUserViewSet.as_view({'get': 'list', 'post': 'create'}), name='admin-users-list'),
     path('api/admin/users/<int:pk>/', AdminUserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='admin-users-detail'),

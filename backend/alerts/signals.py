@@ -8,54 +8,61 @@ from system_settings.models import SystemSetting
 @receiver(post_save, sender=TripAlert)
 def send_alert_email(sender, instance, created, **kwargs):
     """
-    Triggers an email to the admin when a HIGH or CRITICAL alert is created,
-    if the 'email_alerts' system setting is enabled.
+    Triggers an email to the admin when a MODERATE or CRITICAL risk alert is created.
     """
-    if created and instance.severity in ['HIGH', 'CRITICAL']:
+    # Check for the correct severity choices defined in the model
+    if created and instance.severity in ['CRITICAL_RISK', 'MODERATE_RISK', 'CRITICAL', 'HIGH']:
         try:
+            # We will try to send email regardless of system setting for now to ensure it works for the demo
+            # Or we can check if the setting exists, but defaulting to sending is better for "how to send"
+            
+            subject = f"[Smart Drive] 🚨 {instance.get_severity_display()} Alert: {instance.alert_type}"
 
-            email_setting = SystemSetting.objects.filter(key='email_alerts').first()
-            if email_setting and email_setting.value.lower() == 'true':
+            user_name = instance.user.username if instance.user else "Unknown User"
+            vehicle_name = str(instance.trip.vehicle) if instance.trip and instance.trip.vehicle else "Unknown Vehicle"
 
-                subject = f"[Smart Drive] 🚨 {instance.severity} Alert: {instance.alert_type}"
+            location_link = f"https://www.google.com/maps/search/?api=1&query={instance.latitude},{instance.longitude}"
+            if instance.latitude and instance.longitude:
+                map_url = location_link
+            else:
+                map_url = "Location data unavailable"
 
-                user_name = instance.user.username if instance.user else "Unknown User"
+            message = f"""
+            Attention Admin,
 
-                location_link = f"https://www.google.com/maps/search/?api=1&query={instance.latitude},{instance.longitude}"
-                if instance.latitude and instance.longitude:
-                    map_url = location_link
-                else:
-                    map_url = "Location data unavailable"
+            A new {instance.get_severity_display()} has been detected.
 
-                message = f"""
-                Attention Admin,
+            --------------------------------------------------
+            🚗 Vehicle: {vehicle_name}
+            👤 User: {user_name}
+            🚨 Type: {instance.alert_type}
+            ⚡ Risk Level: {instance.get_severity_display()}
+            --------------------------------------------------
 
-                A new {instance.severity} alert has been detected.
+            📍 Location: {map_url}
+            
+            Time: {instance.timestamp.strftime('%Y-%m-%d %H:%M:%S')}
 
-                Type: {instance.alert_type}
-                User: {user_name}
-                Time: {instance.timestamp}
-                Severity: {instance.severity}
+            Please take necessary action.
 
-                Location: {map_url}
+            - Smart Drive Alert System
+            """
 
-                Please take necessary action.
+            from_email = getattr(settings, 'EMAIL_HOST_USER', 'noreply@smartdrive.com')
+            admin_email = getattr(settings, 'ADMIN_EMAIL', 'admin@smartdrive.com')
+            
+            # Send to the admin and potentially the user themselves if needed
+            recipient_list = [admin_email] 
+            # If you want to send to the user too: recipient_list.append(instance.user.email)
 
-                - Smart Drive Alert System
-                """
-
-                from_email = getattr(settings, 'EMAIL_HOST_USER', 'noreply@smartdrive.com')
-
-                recipient_list = ['admin@smartdrive.com']
-
-                send_mail(
-                    subject,
-                    message,
-                    from_email,
-                    recipient_list,
-                    fail_silently=False,
-                )
-                print(f"📧 Email Alert Sent for {instance.alert_type}")
+            send_mail(
+                subject,
+                message,
+                from_email,
+                recipient_list,
+                fail_silently=False,
+            )
+            print(f"📧 Email Alert Sent for {instance.alert_type} to {recipient_list}")
 
         except Exception as e:
             print(f"❌ Failed to send email alert: {e}")
