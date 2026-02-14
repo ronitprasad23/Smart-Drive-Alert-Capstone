@@ -23,13 +23,6 @@ export default function Profile() {
                         </div>
 
                         <div className="detail-group">
-                            <label>Full Name</label>
-                            <p className="detail-value">
-                                {user?.first_name} {user?.last_name}
-                            </p>
-                        </div>
-
-                        <div className="detail-group">
                             <label>Role</label>
                             <span className={`status-badge ${user?.is_staff ? "safe" : "warning"}`}>
                                 {user?.is_staff ? "Administrator" : "User"}

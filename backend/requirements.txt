@@ -3,6 +3,6 @@ djangorestframework
 djangorestframework-simplejwt
 psycopg2-binary
 django-cors-headers
-google-generativeai
+google-genai
 python-dotenv
 drf-spectacular

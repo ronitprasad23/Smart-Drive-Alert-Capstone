@@ -1,7 +1,5 @@
 import os
-import google.generativeai as genai
-import warnings
-warnings.filterwarnings("ignore", category=FutureWarning, module="google.generativeai")
+from google import genai
 from django.conf import settings
 
 def generate_safety_feedback(trip_instance, alerts_queryset):
@@ -31,9 +29,10 @@ def generate_safety_feedback(trip_instance, alerts_queryset):
         return "AI Configuration Error: GEMINI_API_KEY not found. Please add it to your environment variables."
 
     try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-flash-latest')
-        response = model.generate_content(prompt)
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model='gemini-1.5-flash', contents=prompt
+        )
         return response.text
     except Exception as e:
         return f"AI Service Error: {str(e)}"

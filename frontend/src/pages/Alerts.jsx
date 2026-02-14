@@ -150,12 +150,14 @@ export default function Alerts() {
     <>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Alerts Management 🚨</h2>
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95"
-        >
-          <span className="text-lg">+</span> Add Alert
-        </button>
+        {activeTab === 'generated' && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95"
+          >
+            <span className="text-lg">+</span> Add Alert
+          </button>
+        )}
       </div>
 
       <div className="stats-grid">
