@@ -9,7 +9,7 @@ class UserAlertViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     def get_queryset(self):
         return TripAlert.objects.filter(user=self.request.user)
 
-class AdminAlertViewSet(viewsets.ReadOnlyModelViewSet):
+class AdminAlertViewSet(viewsets.ModelViewSet):
     queryset = TripAlert.objects.all()
     serializer_class = AlertSerializer
     permission_classes = (permissions.IsAdminUser,)

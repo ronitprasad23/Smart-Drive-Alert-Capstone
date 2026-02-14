@@ -115,7 +115,8 @@ export default function Trips() {
                                     <td>
                                         <span style={{
                                             color: trip.status === 'COMPLETED' ? '#16a34a' :
-                                                trip.status === 'ONGOING' ? '#2563eb' : '#dc2626',
+                                                trip.status === 'ONGOING' ? '#2563eb' :
+                                                    trip.status === 'SCHEDULED' ? '#0891b2' : '#dc2626',
                                             fontWeight: 'bold'
                                         }}>
                                             {trip.status}
@@ -243,6 +244,7 @@ export default function Trips() {
                                         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                                     >
                                         <option value="ONGOING">Ongoing</option>
+                                        <option value="SCHEDULED">Scheduled</option>
                                         <option value="COMPLETED">Completed</option>
                                         <option value="CANCELLED">Cancelled</option>
                                     </select>

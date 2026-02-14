@@ -51,7 +51,7 @@ urlpatterns = [
     path('api/admin/users/<int:pk>/', AdminUserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='admin-users-detail'),
     path('api/admin/users/<int:pk>/status/', AdminUserViewSet.as_view({'patch': 'partial_update'}), name='admin-users-status'),
 
-    path('api/admin/alerts/', AdminAlertViewSet.as_view({'get': 'list'}), name='admin-alerts-list'),
+    path('api/admin/alerts/', AdminAlertViewSet.as_view({'get': 'list', 'post': 'create'}), name='admin-alerts-list'),
     path('api/admin/alert-types/', AdminAlertDefinitionViewSet.as_view({'get': 'list', 'post': 'create'}), name='admin-alert-types-list'),
     path('api/admin/alert-types/<int:pk>/', AdminAlertDefinitionViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='admin-alert-types-detail'),
 

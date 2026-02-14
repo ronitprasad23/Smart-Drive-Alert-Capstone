@@ -3,12 +3,17 @@ from .models import TripAlert, Alert
 
 class AlertSerializer(serializers.ModelSerializer):
     user_username = serializers.ReadOnlyField(source='user.username')
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=TripAlert.user.field.related_model.objects.all(), 
+        source='user', 
+        write_only=True
+    )
     alert_type = serializers.SlugRelatedField(queryset=Alert.objects.all(), slug_field='name')
 
     class Meta:
         model = TripAlert
         fields = '__all__'
-        read_only_fields = ('user',)
+        read_only_fields = ('user', 'timestamp')
     
     severity_display = serializers.CharField(source='get_severity_display', read_only=True)
 
